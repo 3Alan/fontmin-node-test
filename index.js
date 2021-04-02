@@ -4,8 +4,8 @@ const Fontmin = require('fontmin');
 const app = express();
 app.use(express.static('build'));
 
-const fontmin = new Fontmin();
 function generateTFF(text) {
+    const fontmin = new Fontmin();
     fontmin
         .src('fonts/*.ttf')
         .use(
@@ -29,8 +29,10 @@ app.get('/', function (req, res) {
     const text = req.query.text;
     console.log(text);
     text && generateTFF(text);
-    res.send('<a href="/fonts/a.svg" download="a.svg">download</a>')
-    // res.sendFile(__dirname+'/index.html')
+    res.send(`
+    <div>在URL中输入text参数可以生成对应内容的svg内容</div>
+    <a href="/fonts/a.svg" download="a.svg">download</a>
+    `);
 });
 
 app.listen(3000, () => {
